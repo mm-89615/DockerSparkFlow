@@ -1,0 +1,37 @@
+# Исключить директории виртуального окружения и среды разработки
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.git
+
+# Исключить файлы конфигурации IDE
+.vscode/
+.idea/
+
+# Исключить данные и временные файлы
+*.log
+*.tmp
+*.swp
+
+# Исключить Docker-составляющие, не нужные для сборки
+docker-compose.override.yml
+.dockerignore
+
+# Исключить локальные файлы окружения
+.env
+.env.*
+
+# Исключить файлы и директории для разработки
+tests/
+docs/
+README.md
+Makefile
+
+# Исключить установочные артефакты
+poetry.lock
+pyproject.toml
+
+# Исключить README и Makefile, если они не нужны в контейнере
+README.md
+Makefile

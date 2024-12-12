@@ -1,0 +1,39 @@
+# Исключаем виртуальное окружение
+.venv/
+.env
+
+# Исключаем файлы, специфичные для IDE
+.idea/
+.vscode/
+*.swp
+
+# Исключаем временные файлы Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Исключаем файлы зависимостей и кэша
+requirements.txt
+*.egg-info/
+dist/
+build/
+
+# Исключаем папку с данными PostgreSQL (только если данные не нужны в репозитории)
+pg_data/
+
+# Исключаем Docker-сборки
+docker/*.tar
+*.log
+docker-compose.override.yml
+
+# Исключаем временные файлы и дампы
+*.bak
+*.tmp
+*.pid
+*.dump
+
+# Исключаем файлы, специфичные для OS
+.DS_Store
+Thumbs.db

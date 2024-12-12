@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "dockersparkflow"
+version = "0.1.0"
+description = "Environment for working with Airflow and Spark in Docker"
+authors = ["Maksim Molianov <mm_89615@hotmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.12, <3.13"
+pyspark = "3.5.3"
+apache-airflow = "2.10.3"
+apache-airflow-providers-apache-spark = "4.11.3"
+psycopg2-binary = "2.9.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
