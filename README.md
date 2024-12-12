@@ -44,6 +44,9 @@ AIRFLOW_EXPOSE_CONFIG # default: True
 
 Можно удалить или добавить свои в переменную `connections`.
 
+> `postgres_conn` подключается к тому же Postgres, что и Airflow, 
+> только в другую базу данных (`postgres` вместо `airflow`).
+
 ### Возможности Makefile
 Доступные в Makefile'е команды можно посмотреть с помощью команды `make help`:
 
@@ -69,14 +72,6 @@ AIRFLOW_EXPOSE_CONFIG # default: True
 make build
 make up
 ```
-Необходимые пакеты можно добавлять с помощью:
-```
-poetry add <package_name>
-```
-После добавления пакета необходимо выполнить команду:
-```
-make rebuild
-```
 ### Доступные сервисы
 Aiflow запускается по адресу: http://localhost:8080/
 
@@ -95,4 +90,28 @@ spark_submit_task = SparkSubmitOperator(task_id='spark_submit_job',
 используя `make submit`с указанием пути к скрипту (в папке `jobs`). Например:
 ```
 make submit job=example_jobs.py
+```
+### Установка пакетов и драйверов
+Необходимые пакеты можно добавлять с помощью:
+```
+poetry add <package_name>
+```
+После добавления пакета необходимо выполнить команду:
+```
+make rebuild
+```
+Для установки драйверов для Spark, нужно указывать их в Dockerfile. Например:
+```
+RUN curl -o /opt/bitnami/spark/jars/postgresql-42.5.0.jar \
+    https://repo1.maven.org/maven2/org/postgresql/postgresql/42.5.0/postgresql-42.5.0.jar
+```
+Если запускать скрипты в кластере Spark, то драйверы определяются автоматически.
+
+Если запускать через Airflow, то нужно указывать пакеты в переменную 
+`packages` или `conf` в `SparkSubmitOperator`. Например:
+```python
+spark_submit_task = SparkSubmitOperator(task_id='spark_submit_job',
+    application='jobs/example_jobs.py',
+    conn_id='spark_conn',
+    packages='org.postgresql:postgresql:42.5.0')
 ```

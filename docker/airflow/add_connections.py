@@ -21,7 +21,7 @@ try:
             conn_id='postgres_conn',
             conn_type='postgres',
             host='postgres',
-            port=6432,
+            port=5432,
             login='airflow',
             password='airflow',
             schema='postgres',

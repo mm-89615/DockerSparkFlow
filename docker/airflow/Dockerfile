@@ -1,5 +1,10 @@
 FROM apache/airflow:2.10.3-python3.12
 
+USER airflow
+
+COPY requirements.txt /opt/airflow/requirements.txt
+RUN pip install --no-cache-dir --disable-pip-version-check -r /opt/airflow/requirements.txt
+
 USER root
 
 RUN apt-get update &&  \
@@ -17,9 +22,6 @@ COPY docker/airflow/add_connections.py /add_connections.py
 RUN chmod +x /add_connections.py
 
 USER airflow
-
-COPY requirements.txt /opt/airflow/requirements.txt
-RUN pip install --no-cache-dir --disable-pip-version-check -r /opt/airflow/requirements.txt
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["airflow", "webserver"]
