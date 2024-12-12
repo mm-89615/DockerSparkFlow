@@ -5,9 +5,9 @@ x-airflow-common: &airflow-common
   environment:
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
     AIRFLOW__CORE__LOAD_EXAMPLES: ${AIRFLOW_LOAD_EXAMPLES:-False}
-    AIRFLOW__CORE__TEST_CONNECTION: ${AIRFLOW_TEST_CONNECTION:-"Enabled"}
+    AIRFLOW__CORE__TEST_CONNECTION: ${AIRFLOW_TEST_CONNECTION:-Enabled}
     AIRFLOW__DATABASE__LOAD_DEFAULT_CONNECTIONS: ${AIRFLOW_LOAD_DEFAULT_CONNECTIONS:-False}
-    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: "postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: "postgresql+psycopg2://${POSTGRES_USER:-airflow}:${POSTGRES_PASSWORD:-airflow}@postgres:5432/${POSTGRES_DB:-airflow}"
     AIRFLOW__LOGGING__LOGGING_LEVEL: ${AIRFLOW_LOGGING_LEVEL:-INFO}
     AIRFLOW__WEBSERVER__EXPOSE_CONFIG: ${AIRFLOW_EXPOSE_CONFIG:-True}
     AIRFLOW__WEBSERVER__SECRET_KEY: a0B_2iP3mi8b9VlJP5XmQ1KY2VZE_yItCxRaDkhECv0=
@@ -63,15 +63,15 @@ services:
   postgres:
     image: postgres:15
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:-airflow}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-airflow}
+      POSTGRES_DB: ${POSTGRES_DB:-airflow}
     ports:
       - "${POSTGRES_PORT:-6432}:5432"
     volumes:
       - ./docker/pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-airflow} -d ${POSTGRES_DB:-airflow}" ]
     networks:
       spark-flow:
     deploy:
@@ -113,7 +113,7 @@ services:
       - "${SPARK_MASTER_WEBUI_PORT:-9090}:8080"
       - "7077:7077"
     healthcheck:
-      test: [ "CMD-SHELL", "curl --fail http://localhost:${SPARK_MASTER_WEBUI_PORT} || exit 1" ]
+      test: [ "CMD-SHELL", "curl --fail http://localhost:8080 || exit 1" ]
     deploy:
       resources:
         limits:

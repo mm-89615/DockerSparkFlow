@@ -115,3 +115,14 @@ spark_submit_task = SparkSubmitOperator(task_id='spark_submit_job',
     conn_id='spark_conn',
     packages='org.postgresql:postgresql:42.5.0')
 ```
+### Тестирование
+После поднятия всех контейнеров можно запустить DAG `test_airflow`.
+
+Должна создаться таблица `test_table` в базе `postgres` и записаться в нее данные, 
+а также вывести содержимое этой таблицы.
+
+После чего можно протестировать локальный запуск Spark используя команду: 
+```
+make submit job=test_spark_submit.py
+```
+Должно также вывести содержимое `test_table` в базе `postgres`.
