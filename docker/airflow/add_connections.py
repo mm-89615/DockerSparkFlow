@@ -21,10 +21,10 @@ try:
             conn_id='postgres_conn',
             conn_type='postgres',
             host='postgres',
-            port=5432,
+            port=6432,
             login='airflow',
             password='airflow',
-            schema='airflow',
+            schema='postgres',
             extra='{}'
         )
     ]
